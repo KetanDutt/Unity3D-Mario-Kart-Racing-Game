@@ -187,7 +187,7 @@ public class ComputerDriver : MonoBehaviour
             }
         }
 
-        REALSPEED = transform.InverseTransformDirection(rb.velocity).z;
+        REALSPEED = transform.InverseTransformDirection(rb.linearVelocity).z;
         if (RACE_MANAGER.RACE_STARTED && !item_manage.isBullet)
         {
             startBoostTime -= Time.deltaTime;
@@ -296,7 +296,7 @@ public class ComputerDriver : MonoBehaviour
 
                 //MOVE FORWARD
                 current_speed = 125;
-                rb.velocity = transform.forward * current_speed;
+                rb.linearVelocity = transform.forward * current_speed;
             }
         }
         if (RACE_MANAGER.RACE_STARTED)
@@ -350,8 +350,8 @@ public class ComputerDriver : MonoBehaviour
 
         Vector3 vel = transform.forward * current_speed;
         if(!AntiGravity)
-            vel.y = rb.velocity.y;
-        rb.velocity = vel;
+            vel.y = rb.linearVelocity.y;
+        rb.linearVelocity = vel;
 
         rb.AddRelativeForce(Vector3.down * 5000 * Time.deltaTime, ForceMode.Acceleration);
 
@@ -385,9 +385,9 @@ public class ComputerDriver : MonoBehaviour
 
         if(GLIDER_FLY || aboutToFly)
         {
-            Vector3 GlideVel = rb.velocity;
+            Vector3 GlideVel = rb.linearVelocity;
             GlideVel.y *= 0.5f;
-            rb.velocity = GlideVel;
+            rb.linearVelocity = GlideVel;
 
             if (GLIDER_FLY)
             {
@@ -418,7 +418,7 @@ public class ComputerDriver : MonoBehaviour
 
         if (JUMP_PANEL)
         {
-            rb.velocity = transform.forward * current_speed;
+            rb.linearVelocity = transform.forward * current_speed;
             jumpPanelUpForce = Mathf.Lerp(jumpPanelUpForce, jumpPanelDownForce, 2.5f * Time.deltaTime);
             rb.AddRelativeForce(Vector3.down * jumpPanelUpForce * Time.deltaTime, ForceMode.Acceleration);
             rb.AddForce(transform.forward * 80000 * Time.deltaTime, ForceMode.Acceleration);
@@ -436,7 +436,7 @@ public class ComputerDriver : MonoBehaviour
         
         
 
-        if(path.GetChild(current_node).tag == "DriftLeft" && transform.InverseTransformDirection(rb.velocity).z > 40) //left
+        if(path.GetChild(current_node).tag == "DriftLeft" && transform.InverseTransformDirection(rb.linearVelocity).z > 40) //left
         {
             if(hop_anim)
             {
@@ -449,7 +449,7 @@ public class ComputerDriver : MonoBehaviour
             transform.GetChild(0).localRotation = Quaternion.Lerp(transform.GetChild(0).localRotation, Quaternion.Euler(0, -30, 0), 8f * Time.deltaTime);
             
         }
-        if (path.GetChild(current_node).tag == "DriftRight" && transform.InverseTransformDirection(rb.velocity).z > 40) //right
+        if (path.GetChild(current_node).tag == "DriftRight" && transform.InverseTransformDirection(rb.linearVelocity).z > 40) //right
         {
             if (hop_anim)
             {
@@ -522,7 +522,7 @@ public class ComputerDriver : MonoBehaviour
             }
         }
 
-        if ((path.GetChild(current_node).tag != "DriftLeft" && path.GetChild(current_node).tag != "DriftRight") || transform.InverseTransformDirection(rb.velocity).z <= 40 || !grounded) //stop drifting
+        if ((path.GetChild(current_node).tag != "DriftLeft" && path.GetChild(current_node).tag != "DriftRight") || transform.InverseTransformDirection(rb.linearVelocity).z <= 40 || !grounded) //stop drifting
         {
             if(drift_time >= 1 && drift_time < 3)
             {

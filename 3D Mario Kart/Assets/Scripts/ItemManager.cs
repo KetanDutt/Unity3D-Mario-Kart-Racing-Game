@@ -646,7 +646,7 @@ public class ItemManager : MonoBehaviour
             GameObject clone = Instantiate(bobomb, BananaSpawnPos.position, BananaSpawnPos.rotation);
             clone.SetActive(true);
             //clone.GetComponent<Rigidbody>().drag = 10;
-            clone.GetComponent<Bobomb>().bomb_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity).z * 400);
+            clone.GetComponent<Bobomb>().bomb_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().linearVelocity).z * 400);
             clone.GetComponent<AudioSource>().enabled = true;
 
             for (int i = 0; i < clone.GetComponent<Bobomb>().renderers.Length; i++)
@@ -710,7 +710,7 @@ public class ItemManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             item_gameobjects[1].SetActive(false);
             clone = Instantiate(banana, BananaSpawnPos.position, BananaSpawnPos.rotation);
-            clone.GetComponent<Banana>().Banana_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity).z * 200);
+            clone.GetComponent<Banana>().Banana_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().linearVelocity).z * 200);
             clone.GetComponent<Banana>().whoThrewBanana = gameObject.name;
         }
         else

@@ -231,8 +231,8 @@ public class BlueShell : MonoBehaviour
        Vector3 vel = transform.forward * speed * Time.deltaTime;
 
         if(!AntiGravity)
-            vel.y = rb.velocity.y/1.5f;
-        rb.velocity = vel;
+            vel.y = rb.linearVelocity.y/1.5f;
+        rb.linearVelocity = vel;
     }
 
     void DetectTarget()

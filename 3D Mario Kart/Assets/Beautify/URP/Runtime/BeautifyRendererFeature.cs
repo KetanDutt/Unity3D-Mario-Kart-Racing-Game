@@ -264,7 +264,7 @@ namespace Beautify.Universal {
                 setup = true;
 
                 cameraData = renderingData.cameraData;
-                source = renderer.cameraColorTarget;
+                // source = renderer.cameraColorTarget;
                 supportsFPTextures = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGBHalf);
                 if (bMat == null) bMat = CoreUtils.CreateEngineMaterial(shader);
 
@@ -320,114 +320,114 @@ namespace Beautify.Universal {
             }
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
-                if (bMat == null) {
-                    Debug.LogError("Beautify material not initialized.");
-                    return;
-                }
+                // if (bMat == null) {
+                //     Debug.LogError("Beautify material not initialized.");
+                //     return;
+                // }
 
-                Camera cam = cameraData.camera;
+                // Camera cam = cameraData.camera;
 
-                if (beautify == null || cam == null || !beautify.IsActive()) return;
+                // if (beautify == null || cam == null || !beautify.IsActive()) return;
 
-                if (cam.cameraType == CameraType.SceneView && beautify.hideInSceneView.value) return;
+                // if (cam.cameraType == CameraType.SceneView && beautify.hideInSceneView.value) return;
 
-                RestoreRTBufferIds();
+                // RestoreRTBufferIds();
 
-                var cmd = CommandBufferPool.Get("Beautify");
+                // var cmd = CommandBufferPool.Get("Beautify");
 
-                if (usesBloomAndFlares) {
-                    DoBloomAndFlares(cmd);
-                }
+                // if (usesBloomAndFlares) {
+                //     DoBloomAndFlares(cmd);
+                // }
 
-                if (requiresLuminanceComputation) {
-                    DoEyeAdaptation(cmd);
-                }
+                // if (requiresLuminanceComputation) {
+                //     DoEyeAdaptation(cmd);
+                // }
 
-                if (usesDepthOfField) {
-                    DoDoF(cmd);
-                }
+                // if (usesDepthOfField) {
+                //     DoDoF(cmd);
+                // }
 
-                if (usesVignetting) {
-                    DoVignette();
-                }
+                // if (usesVignetting) {
+                //     DoVignette();
+                // }
 
-                if (beautify.directWrite.value) {
-                    // direct output to camera
-                    if (beautify.debugOutput.value == Beautify.DebugOutput.DepthOfFieldCoC) {
-                        if (beautify.depthOfField.value) {
-                            // we ignore input contents
-                            Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.DoFCoCDebug);
-                        }
-                    } else if (beautify.debugOutput.value == Beautify.DebugOutput.BloomAndFlares) {
-                        if (beautify.bloomIntensity.value > 0 || beautify.anamorphicFlaresIntensity.value > 0 || beautify.sunFlaresIntensity.value > 0 || beautify.lensDirtIntensity.value > 0) {
-                            // we ignore input contents
-                            Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.BloomDebug);
-                        }
-                    } else if (beautify.blurIntensity.value > 0) {
-                        ApplyFinalBlur(cmd);
+                // if (beautify.directWrite.value) {
+                //     // direct output to camera
+                //     if (beautify.debugOutput.value == Beautify.DebugOutput.DepthOfFieldCoC) {
+                //         if (beautify.depthOfField.value) {
+                //             // we ignore input contents
+                //             Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.DoFCoCDebug);
+                //         }
+                //     } else if (beautify.debugOutput.value == Beautify.DebugOutput.BloomAndFlares) {
+                //         if (beautify.bloomIntensity.value > 0 || beautify.anamorphicFlaresIntensity.value > 0 || beautify.sunFlaresIntensity.value > 0 || beautify.lensDirtIntensity.value > 0) {
+                //             // we ignore input contents
+                //             Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.BloomDebug);
+                //         }
+                //     } else if (beautify.blurIntensity.value > 0) {
+                //         ApplyFinalBlur(cmd);
 
-                        if (beautify.compareMode.value) {
-                            cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
-                            Blit(cmd, ShaderParams.blurRT, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
-                            Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Compare);
-                            cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
-                        } else {
-                            Blit(cmd, ShaderParams.blurRT, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Beautify);
-                        }
-                    } else if (beautify.compareMode.value) {
-                        cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
-                        Blit(cmd, source, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
-                        Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Compare);
-                        cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
-                    } else {
-                        Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Beautify);
-                    }
+                //         if (beautify.compareMode.value) {
+                //             cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
+                //             Blit(cmd, ShaderParams.blurRT, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
+                //             Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Compare);
+                //             cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
+                //         } else {
+                //             Blit(cmd, ShaderParams.blurRT, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Beautify);
+                //         }
+                //     } else if (beautify.compareMode.value) {
+                //         cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
+                //         Blit(cmd, source, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
+                //         Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Compare);
+                //         cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
+                //     } else {
+                //         Blit(cmd, source, BuiltinRenderTextureType.CameraTarget, bMat, (int)Pass.Beautify);
+                //     }
 
-                } else {
-                    bool useBilinearFiltering = beautify.downsampling.value && beautify.downsamplingMultiplier.value > 1f && beautify.downsamplingBilinear.value;
-                    int copyPass = useBilinearFiltering ? (int)Pass.CopyBilinear : (int)Pass.CopyExact;
+                // } else {
+                //     bool useBilinearFiltering = beautify.downsampling.value && beautify.downsamplingMultiplier.value > 1f && beautify.downsamplingBilinear.value;
+                //     int copyPass = useBilinearFiltering ? (int)Pass.CopyBilinear : (int)Pass.CopyExact;
 
-                    cmd.GetTemporaryRT(ShaderParams.inputTex, sourceDesc, (!beautify.downsampling.value || (beautify.downsamplingMultiplier.value > 1f && !beautify.downsamplingBilinear.value)) ? FilterMode.Point : FilterMode.Bilinear);
+                //     cmd.GetTemporaryRT(ShaderParams.inputTex, sourceDesc, (!beautify.downsampling.value || (beautify.downsamplingMultiplier.value > 1f && !beautify.downsamplingBilinear.value)) ? FilterMode.Point : FilterMode.Bilinear);
 
-                    if (beautify.debugOutput.value == Beautify.DebugOutput.DepthOfFieldCoC) {
-                        if (beautify.depthOfField.value) {
-                            // we ignore input contents
-                            Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.DoFCoCDebug);
-                        }
-                    } else if (beautify.debugOutput.value == Beautify.DebugOutput.BloomAndFlares) {
-                        if (beautify.bloomIntensity.value > 0 || beautify.anamorphicFlaresIntensity.value > 0 || beautify.sunFlaresIntensity.value > 0 || beautify.lensDirtIntensity.value > 0) {
-                            // we ignore input contents
-                            Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.BloomDebug);
-                        }
-                    } else if (beautify.blurIntensity.value > 0) {
-                        ApplyFinalBlur(cmd);
+                //     if (beautify.debugOutput.value == Beautify.DebugOutput.DepthOfFieldCoC) {
+                //         if (beautify.depthOfField.value) {
+                //             // we ignore input contents
+                //             Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.DoFCoCDebug);
+                //         }
+                //     } else if (beautify.debugOutput.value == Beautify.DebugOutput.BloomAndFlares) {
+                //         if (beautify.bloomIntensity.value > 0 || beautify.anamorphicFlaresIntensity.value > 0 || beautify.sunFlaresIntensity.value > 0 || beautify.lensDirtIntensity.value > 0) {
+                //             // we ignore input contents
+                //             Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.BloomDebug);
+                //         }
+                //     } else if (beautify.blurIntensity.value > 0) {
+                //         ApplyFinalBlur(cmd);
 
-                        if (beautify.compareMode.value) {
-                            cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
-                            Blit(cmd, ShaderParams.blurRT, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
-                            Blit(cmd, source, ShaderParams.inputTex, bMat, copyPass);
-                            Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.Compare);
-                            cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
-                        } else {
-                            Blit(cmd, ShaderParams.blurRT, source, bMat, (int)Pass.Beautify);
-                        }
-                    } else if (beautify.compareMode.value) {
-                        cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
-                        Blit(cmd, source, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
-                        Blit(cmd, source, ShaderParams.inputTex, bMat, copyPass);
-                        Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.Compare);
-                        cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
-                    } else {
-                        Blit(cmd, source, ShaderParams.inputTex, bMat, copyPass);
-                        Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.Beautify);
-                    }
+                //         if (beautify.compareMode.value) {
+                //             cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
+                //             Blit(cmd, ShaderParams.blurRT, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
+                //             Blit(cmd, source, ShaderParams.inputTex, bMat, copyPass);
+                //             Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.Compare);
+                //             cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
+                //         } else {
+                //             Blit(cmd, ShaderParams.blurRT, source, bMat, (int)Pass.Beautify);
+                //         }
+                //     } else if (beautify.compareMode.value) {
+                //         cmd.GetTemporaryRT(ShaderParams.compareTex, sourceDesc, FilterMode.Point);
+                //         Blit(cmd, source, ShaderParams.compareTex, bMat, (int)Pass.Beautify);
+                //         Blit(cmd, source, ShaderParams.inputTex, bMat, copyPass);
+                //         Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.Compare);
+                //         cmd.ReleaseTemporaryRT(ShaderParams.compareTex);
+                //     } else {
+                //         Blit(cmd, source, ShaderParams.inputTex, bMat, copyPass);
+                //         Blit(cmd, ShaderParams.inputTex, source, bMat, (int)Pass.Beautify);
+                //     }
 
-                    cmd.ReleaseTemporaryRT(ShaderParams.inputTex);
-                }
+                //     cmd.ReleaseTemporaryRT(ShaderParams.inputTex);
+                // }
 
-                context.ExecuteCommandBuffer(cmd);
+                // context.ExecuteCommandBuffer(cmd);
 
-                CommandBufferPool.Release(cmd);
+                // CommandBufferPool.Release(cmd);
 
             }
 
@@ -1206,58 +1206,58 @@ namespace Beautify.Universal {
         }
 
 
-        class BeautifyBloomMaskPass : ScriptableRenderPass {
+        // class BeautifyBloomMaskPass : ScriptableRenderPass {
 
-            readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
+        //     readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
 
-            RenderTargetHandle m_Depth;
-            Material m_DepthOnlyMaterial = null;
+        //     // RenderTargetHandle m_Depth;
+        //     Material m_DepthOnlyMaterial = null;
 
-            public BeautifyBloomMaskPass() {
-                m_Depth.Init("_BloomSourceDepth");
-                renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
-                m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
-                m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
-                m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
-                Shader depthOnly = Shader.Find("Universal Render Pipeline/Unlit");
-                if (depthOnly != null) {
-                    m_DepthOnlyMaterial = new Material(depthOnly);
-                }
-            }
+        //     public BeautifyBloomMaskPass() {
+        //         // m_Depth.Init("_BloomSourceDepth");
+        //         renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        //         m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
+        //         m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
+        //         m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
+        //         Shader depthOnly = Shader.Find("Universal Render Pipeline/Unlit");
+        //         if (depthOnly != null) {
+        //             m_DepthOnlyMaterial = new Material(depthOnly);
+        //         }
+        //     }
 
-            public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
-                RenderTextureDescriptor depthDesc = cameraTextureDescriptor;
-                depthDesc.colorFormat = RenderTextureFormat.Depth;
-                depthDesc.depthBufferBits = 24;
-                depthDesc.msaaSamples = 1;
-                cmd.GetTemporaryRT(m_Depth.id, depthDesc, FilterMode.Point);
-                cmd.SetGlobalTexture("_BloomSourceDepth", m_Depth.Identifier());
-                ConfigureTarget(m_Depth.Identifier());
-                ConfigureClear(ClearFlag.All, Color.black);
-            }
+        //     public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
+        //         RenderTextureDescriptor depthDesc = cameraTextureDescriptor;
+        //         depthDesc.colorFormat = RenderTextureFormat.Depth;
+        //         depthDesc.depthBufferBits = 24;
+        //         depthDesc.msaaSamples = 1;
+        //         cmd.GetTemporaryRT(m_Depth.id, depthDesc, FilterMode.Point);
+        //         cmd.SetGlobalTexture("_BloomSourceDepth", m_Depth.Identifier());
+        //         ConfigureTarget(m_Depth.Identifier());
+        //         ConfigureClear(ClearFlag.All, Color.black);
+        //     }
 
-            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
+        //     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
 
-                SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
-                var drawingSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortingCriteria);
-                drawingSettings.perObjectData = PerObjectData.None;
-                drawingSettings.overrideMaterial = m_DepthOnlyMaterial;
+        //         SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
+        //         var drawingSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortingCriteria);
+        //         drawingSettings.perObjectData = PerObjectData.None;
+        //         drawingSettings.overrideMaterial = m_DepthOnlyMaterial;
 
-                var filter = new FilteringSettings(RenderQueueRange.opaque) { layerMask = BeautifySettings.bloomExcludeMask };
-                context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filter);
-            }
+        //         var filter = new FilteringSettings(RenderQueueRange.opaque) { layerMask = BeautifySettings.bloomExcludeMask };
+        //         context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filter);
+        //     }
 
-            public override void FrameCleanup(CommandBuffer cmd) {
-                if (cmd == null) return;
-                cmd.ReleaseTemporaryRT(m_Depth.id);
-            }
-        }
+        //     public override void FrameCleanup(CommandBuffer cmd) {
+        //         if (cmd == null) return;
+        //         cmd.ReleaseTemporaryRT(m_Depth.id);
+        //     }
+        // }
 
 
         [SerializeField, HideInInspector]
         Shader shader;
         BeautifyRenderPass m_BeautifyRenderPass;
-        BeautifyBloomMaskPass m_BeautifyBloomMaskPass;
+        // BeautifyBloomMaskPass m_BeautifyBloomMaskPass;
 
         public static bool installed;
 
@@ -1272,7 +1272,7 @@ namespace Beautify.Universal {
         public override void Create() {
             name = "Beautify";
             m_BeautifyRenderPass = new BeautifyRenderPass();
-            m_BeautifyBloomMaskPass = new BeautifyBloomMaskPass();
+            // m_BeautifyBloomMaskPass = new BeautifyBloomMaskPass();
             installed = true;
         }
 
@@ -1286,9 +1286,9 @@ namespace Beautify.Universal {
             }
 
             if (renderingData.cameraData.postProcessEnabled) {
-                if (BeautifySettings.bloomExcludeMask > 0) {
-                    renderer.EnqueuePass(m_BeautifyBloomMaskPass);
-                }
+                // if (BeautifySettings.bloomExcludeMask > 0) {
+                    // renderer.EnqueuePass(m_BeautifyBloomMaskPass);
+                // }
                 m_BeautifyRenderPass.Setup(shader, renderer, renderingData);
                 renderer.EnqueuePass(m_BeautifyRenderPass);
             }

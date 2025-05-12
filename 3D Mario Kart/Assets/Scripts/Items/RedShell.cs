@@ -212,10 +212,10 @@ public class RedShell : MonoBehaviour
         Vector3 vel = transform.forward * speed * Time.deltaTime;
 
         if(!AntiGravity)
-            vel.y = rb.velocity.y;
+            vel.y = rb.linearVelocity.y;
        
 
-        rb.velocity = vel;
+        rb.linearVelocity = vel;
 
         if (needsExtraDownForceAntigravity && AntiGravity && !antiGravityGrounded)
         {

@@ -58,13 +58,13 @@ public class GreenShell : MonoBehaviour
         myVelocity *= velocityMagOriginal * Time.deltaTime;
 
         if(!AntiGravity)
-            myVelocity.y = rb.velocity.y;
+            myVelocity.y = rb.linearVelocity.y;
 
 
-        rb.velocity = myVelocity;
+        rb.linearVelocity = myVelocity;
 
         
-        Vector3 vel = transform.InverseTransformDirection(rb.velocity);
+        Vector3 vel = transform.InverseTransformDirection(rb.linearVelocity);
         if (!AntiGravity)
         {
             if (!GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().GLIDER_FLY)
@@ -162,7 +162,7 @@ public class GreenShell : MonoBehaviour
                 {
                     Vector3 oldvel = myVelocity;
 
-                    rb.velocity = Vector3.zero;
+                    rb.linearVelocity = Vector3.zero;
                     myVelocity = Vector3.Reflect(myVelocity, collision.contacts[0].normal);
 
                     

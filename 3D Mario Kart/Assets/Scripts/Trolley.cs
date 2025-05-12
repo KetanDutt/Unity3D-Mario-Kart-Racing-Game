@@ -45,7 +45,7 @@ public class Trolley : MonoBehaviour
         if (!antiGravity)
         {
 
-            vel.y = rb.velocity.y;
+            vel.y = rb.linearVelocity.y;
 
 
             rb.AddForce(Vector3.down * 20000 * Time.deltaTime, ForceMode.Acceleration);
@@ -54,7 +54,7 @@ public class Trolley : MonoBehaviour
         {
             rb.AddRelativeForce(Vector3.down * 10000 * Time.deltaTime, ForceMode.Acceleration);
         }
-        rb.velocity = vel;
+        rb.linearVelocity = vel;
 
 
         if (isSubmarine)

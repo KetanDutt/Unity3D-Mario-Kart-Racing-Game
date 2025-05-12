@@ -74,8 +74,8 @@ public class Cow : MonoBehaviour
     void moveOnPath()
     {
         Vector3 vel = transform.forward * speed;
-        vel.y = rb.velocity.y;
-        rb.velocity = vel;
+        vel.y = rb.linearVelocity.y;
+        rb.linearVelocity = vel;
 
 
         //angle calc

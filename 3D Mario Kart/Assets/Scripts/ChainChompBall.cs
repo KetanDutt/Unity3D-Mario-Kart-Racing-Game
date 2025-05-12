@@ -50,7 +50,7 @@ public class ChainChompBall : MonoBehaviour
         {
             if(cf.force.y < 0)
             {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * -1, rb.velocity.z);
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * -1, rb.linearVelocity.z);
             }
             cf.force = new Vector3(0, -force, 0);
             audiosrc.Play();

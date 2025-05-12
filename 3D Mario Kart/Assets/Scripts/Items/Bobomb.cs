@@ -106,7 +106,7 @@ public class Bobomb : MonoBehaviour
 
         transform.Rotate(0, y / 2, 0, Space.Self);
 
-        rb.velocity = transform.TransformDirection(0, rb.velocity.y, moveSpeed * Time.deltaTime); //goes in direction thingy is facing in as its positive z value
+        rb.linearVelocity = transform.TransformDirection(0, rb.linearVelocity.y, moveSpeed * Time.deltaTime); //goes in direction thingy is facing in as its positive z value
 
     }
 

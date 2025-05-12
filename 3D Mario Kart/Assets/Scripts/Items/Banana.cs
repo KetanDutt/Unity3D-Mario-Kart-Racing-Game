@@ -34,7 +34,7 @@ public class Banana : MonoBehaviour
         {
             groundNormalRotation();
 
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             GetComponent<Animator>().SetTrigger("LandGround");
         }
     }

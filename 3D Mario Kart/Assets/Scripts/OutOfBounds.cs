@@ -40,7 +40,7 @@ public class OutOfBounds : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
 
                 GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
                 Transform currPoint = GetComponent<LapCounter>().checkpoints.GetChild(GetComponent<LapCounter>().currentCheckpointVal);
 
@@ -77,7 +77,7 @@ public class OutOfBounds : MonoBehaviour
                 PlayerBeingMoved = true;
                 yield return new WaitForSeconds(1);
                 GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
                 Transform currPoint = GetComponent<ComputerDriver>().path.GetChild(GetComponent<ComputerDriver>().current_node);
                 GetComponent<LapCounter>().currentCheckpointVal++;
@@ -113,7 +113,7 @@ public class OutOfBounds : MonoBehaviour
                 outOfBounds = true;
                 PlayerBeingMoved = true;
                 GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
                 Transform currPoint;
                 if (RACE_MANAGER.RACE_COMPLETED)
@@ -156,7 +156,7 @@ public class OutOfBounds : MonoBehaviour
                 outOfBounds = true;
                 PlayerBeingMoved = true;
                 GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
                 Transform currPoint = GetComponent<ComputerDriver>().path.GetChild(GetComponent<ComputerDriver>().current_node);
                 //set a few lap checkpoints to true ahead

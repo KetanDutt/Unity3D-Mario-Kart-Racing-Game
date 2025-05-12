@@ -812,7 +812,7 @@ public class OpponentItemManager : MonoBehaviour
             if (current_item != "TripleBananas")
                 ItemsPossible[itemIndex].SetActive(false); //hand banana
             clone = Instantiate(Banana, bananaPos.position, bananaPos.rotation);
-            clone.GetComponent<Banana>().Banana_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity).z * 500);
+            clone.GetComponent<Banana>().Banana_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().linearVelocity).z * 500);
             clone.GetComponent<Banana>().whoThrewBanana = gameObject.name;
         }
         else
@@ -861,7 +861,7 @@ public class OpponentItemManager : MonoBehaviour
             GameObject clone = Instantiate(bobomb, bananaPos.position, bananaPos.rotation);
             clone.SetActive(true);
             //clone.GetComponent<Rigidbody>().drag = 10;
-            clone.GetComponent<Bobomb>().bomb_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity).z * 400);
+            clone.GetComponent<Bobomb>().bomb_thrown(transform.InverseTransformDirection(GetComponent<Rigidbody>().linearVelocity).z * 400);
             clone.GetComponent<AudioSource>().enabled = true;
 
             for (int i = 0; i < clone.GetComponent<Bobomb>().renderers.Length; i++)

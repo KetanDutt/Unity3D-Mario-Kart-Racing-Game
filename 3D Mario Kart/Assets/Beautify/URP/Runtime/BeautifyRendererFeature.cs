@@ -1206,58 +1206,58 @@ namespace Beautify.Universal {
         }
 
 
-        // class BeautifyBloomMaskPass : ScriptableRenderPass {
+        class BeautifyBloomMaskPass : ScriptableRenderPass {
 
-        //     readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
+            readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
 
-        //     // RenderTargetHandle m_Depth;
-        //     Material m_DepthOnlyMaterial = null;
+            // RenderTargetHandle m_Depth;
+            Material m_DepthOnlyMaterial = null;
 
-        //     public BeautifyBloomMaskPass() {
-        //         // m_Depth.Init("_BloomSourceDepth");
-        //         renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
-        //         m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
-        //         m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
-        //         m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
-        //         Shader depthOnly = Shader.Find("Universal Render Pipeline/Unlit");
-        //         if (depthOnly != null) {
-        //             m_DepthOnlyMaterial = new Material(depthOnly);
-        //         }
-        //     }
+            public BeautifyBloomMaskPass() {
+                // m_Depth.Init("_BloomSourceDepth");
+                renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+                m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
+                m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
+                m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
+                Shader depthOnly = Shader.Find("Universal Render Pipeline/Unlit");
+                if (depthOnly != null) {
+                    m_DepthOnlyMaterial = new Material(depthOnly);
+                }
+            }
 
-        //     public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
-        //         RenderTextureDescriptor depthDesc = cameraTextureDescriptor;
-        //         depthDesc.colorFormat = RenderTextureFormat.Depth;
-        //         depthDesc.depthBufferBits = 24;
-        //         depthDesc.msaaSamples = 1;
-        //         cmd.GetTemporaryRT(m_Depth.id, depthDesc, FilterMode.Point);
-        //         cmd.SetGlobalTexture("_BloomSourceDepth", m_Depth.Identifier());
-        //         ConfigureTarget(m_Depth.Identifier());
-        //         ConfigureClear(ClearFlag.All, Color.black);
-        //     }
+            public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
+                RenderTextureDescriptor depthDesc = cameraTextureDescriptor;
+                depthDesc.colorFormat = RenderTextureFormat.Depth;
+                depthDesc.depthBufferBits = 24;
+                depthDesc.msaaSamples = 1;
+                // cmd.GetTemporaryRT(m_Depth.id, depthDesc, FilterMode.Point);
+                // cmd.SetGlobalTexture("_BloomSourceDepth", m_Depth.Identifier());
+                // ConfigureTarget(m_Depth.Identifier());
+                ConfigureClear(ClearFlag.All, Color.black);
+            }
 
-        //     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
+            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
 
-        //         SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
-        //         var drawingSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortingCriteria);
-        //         drawingSettings.perObjectData = PerObjectData.None;
-        //         drawingSettings.overrideMaterial = m_DepthOnlyMaterial;
+                SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
+                var drawingSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortingCriteria);
+                drawingSettings.perObjectData = PerObjectData.None;
+                drawingSettings.overrideMaterial = m_DepthOnlyMaterial;
 
-        //         var filter = new FilteringSettings(RenderQueueRange.opaque) { layerMask = BeautifySettings.bloomExcludeMask };
-        //         context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filter);
-        //     }
+                var filter = new FilteringSettings(RenderQueueRange.opaque) { layerMask = BeautifySettings.bloomExcludeMask };
+                context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filter);
+            }
 
-        //     public override void FrameCleanup(CommandBuffer cmd) {
-        //         if (cmd == null) return;
-        //         cmd.ReleaseTemporaryRT(m_Depth.id);
-        //     }
-        // }
+            public override void FrameCleanup(CommandBuffer cmd) {
+                if (cmd == null) return;
+                // cmd.ReleaseTemporaryRT(m_Depth.id);
+            }
+        }
 
 
         [SerializeField, HideInInspector]
         Shader shader;
         BeautifyRenderPass m_BeautifyRenderPass;
-        // BeautifyBloomMaskPass m_BeautifyBloomMaskPass;
+        BeautifyBloomMaskPass m_BeautifyBloomMaskPass;
 
         public static bool installed;
 
@@ -1272,7 +1272,7 @@ namespace Beautify.Universal {
         public override void Create() {
             name = "Beautify";
             m_BeautifyRenderPass = new BeautifyRenderPass();
-            // m_BeautifyBloomMaskPass = new BeautifyBloomMaskPass();
+            m_BeautifyBloomMaskPass = new BeautifyBloomMaskPass();
             installed = true;
         }
 
@@ -1286,9 +1286,9 @@ namespace Beautify.Universal {
             }
 
             if (renderingData.cameraData.postProcessEnabled) {
-                // if (BeautifySettings.bloomExcludeMask > 0) {
-                    // renderer.EnqueuePass(m_BeautifyBloomMaskPass);
-                // }
+                if (BeautifySettings.bloomExcludeMask > 0) {
+                    renderer.EnqueuePass(m_BeautifyBloomMaskPass);
+                }
                 m_BeautifyRenderPass.Setup(shader, renderer, renderingData);
                 renderer.EnqueuePass(m_BeautifyRenderPass);
             }

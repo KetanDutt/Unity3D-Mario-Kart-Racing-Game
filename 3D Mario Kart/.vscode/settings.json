@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "3D Mario Kart.sln"
+    "dotnet.defaultSolution": "3D Mario Kart Full Project.sln"
 }

@@ -16,7 +16,6 @@ I started this as a way to gain experience with C#, and learn what it is like to
 
 I also decided to create this game as I couldn't find any open-source kart racing games that utilize similar physics to the very popular kart racing game, Mario Kart 8, and I wanted to change that with a challenge for myself.
 
-I'm dedicated to pushing this project forward and making improvements. Whether you're a contributor, player, or just interested, you're part of this exciting journey. Let's build the future of this project together.
 
 This game features 5 different tracks with detailed visuals to provide a great user experience.
 
@@ -38,7 +37,7 @@ and the rest of the videos can be found on my [YouTube Channel](https://www.yout
 <!-- Status -->
 ## Status
 
-This project is currently in development. I will be maintaining it for any major updates or features in Unity launches. The playable demo can be found here [here](https://drive.google.com/file/d/1YZ2OqAirBQlzf0WjMv1-zO6F597xrQoq/view?usp=sharing). 
+This project is not currently in development. The playable demo can be found here [here](https://drive.google.com/file/d/1YZ2OqAirBQlzf0WjMv1-zO6F597xrQoq/view?usp=sharing). 
 
 
 
